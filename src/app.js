@@ -3,25 +3,48 @@ console.log("App.js is running!");
 const app = {
   title: "Indecision App",
   subtitle: "This is some info",
-  options: ["One", "Two"],
+  options: [],
 };
 
-const template = (
-  <div>
-    <h1>{app.title}</h1>
-    {app.subtitle && <p>{app.subtitle}</p>}
-    <p>{app.options.length > 0 ? "Here are your options" : "No options"}</p>
-    <ol>
-      <li>Item One</li>
-      <li>Item Two</li>
-    </ol>
-    <form>
-      <input type="text" name="option" />
-      <button>Add Option</button>
-    </form>
-  </div>
-);
+const onFormSubmit = (e) => {
+  e.preventDefault();
+
+  const option = e.target.elements.option.value;
+
+  if (option) {
+    app.options.push(option);
+    e.target.elements.option.value = "";
+    render();
+  }
+};
+
+const onRemoveOptions = () => {
+  app.options = [];
+  render();
+};
 
 const appRoot = document.getElementById("app");
 
-ReactDOM.render(template, appRoot);
+const render = () => {
+  const template = (
+    <div>
+      <h1>{app.title}</h1>
+      {app.subtitle && <p>{app.subtitle}</p>}
+      <p>{app.options.length > 0 ? "Here are your options" : "No options"}</p>
+      <p>{app.options.length}</p>
+      <button onClick={onRemoveOptions}>Remove All</button>
+      <ol>
+        <li>Item One</li>
+        <li>Item Two</li>
+      </ol>
+      <form onSubmit={onFormSubmit}>
+        <input type="text" name="option" />
+        <button>Add Option</button>
+      </form>
+    </div>
+  );
+
+  ReactDOM.render(template, appRoot);
+};
+
+render();
