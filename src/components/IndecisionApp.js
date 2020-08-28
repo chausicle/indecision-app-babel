@@ -8,16 +8,6 @@ export default class IndecisionApp extends React.Component {
   state = {
     options: [],
   };
-  constructor(props) {
-    super(props);
-    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-    this.handleDeleteOption = this.handleDeleteOption.bind(this);
-    this.handlePickOption = this.handlePickOption.bind(this);
-    this.handleAddOption = this.handleAddOption.bind(this);
-    this.state = {
-      options: [],
-    };
-  }
 
   handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
