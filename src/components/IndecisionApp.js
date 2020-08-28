@@ -5,6 +5,9 @@ import Options from "./Options";
 import AddOption from "./AddOption";
 
 export default class IndecisionApp extends React.Component {
+  state = {
+    options: [],
+  };
   constructor(props) {
     super(props);
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
@@ -16,7 +19,32 @@ export default class IndecisionApp extends React.Component {
     };
   }
 
-  componentDidMount() {
+  handleDeleteOptions = () => {
+    this.setState(() => ({ options: [] }));
+  };
+
+  handleDeleteOption = (optionToRemove) => {
+    this.setState((prevState) => ({
+      options: prevState.options.filter((option) => optionToRemove !== option),
+    }));
+  };
+
+  handlePickOption = () => {
+    const randomIndex = Math.floor(Math.random() * this.state.options.length);
+    alert(this.state.options[randomIndex]);
+  };
+
+  handleAddOption = (option) => {
+    if (!option) {
+      return "Enter valid value to add item";
+    } else if (this.state.options.indexOf(option) > -1) {
+      return "This option already exists";
+    }
+
+    this.setState((prevState) => ({ options: [...prevState.options, option] }));
+  };
+
+  componentDidMount = () => {
     try {
       const json = localStorage.getItem("options");
       const options = JSON.parse(json);
@@ -27,45 +55,20 @@ export default class IndecisionApp extends React.Component {
     } catch (e) {
       // Do nothing
     }
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate = (prevProps, prevState) => {
     if (prevState.options.length !== this.state.options.length) {
       const json = JSON.stringify(this.state.options);
       localStorage.setItem("options", json);
     }
-  }
+  };
 
-  componentWillUnmount() {
+  componentWillUnmount = () => {
     console.log("componentWillUnmount");
-  }
+  };
 
-  handleDeleteOptions() {
-    this.setState(() => ({ options: [] }));
-  }
-
-  handleDeleteOption(optionToRemove) {
-    this.setState((prevState) => ({
-      options: prevState.options.filter((option) => optionToRemove !== option),
-    }));
-  }
-
-  handlePickOption() {
-    const randomIndex = Math.floor(Math.random() * this.state.options.length);
-    alert(this.state.options[randomIndex]);
-  }
-
-  handleAddOption(option) {
-    if (!option) {
-      return "Enter valid value to add item";
-    } else if (this.state.options.indexOf(option) > -1) {
-      return "This option already exists";
-    }
-
-    this.setState((prevState) => ({ options: [...prevState.options, option] }));
-  }
-
-  render() {
+  render = () => {
     const subtitle = "Put your life in the hands of a computer";
 
     return (
@@ -83,5 +86,5 @@ export default class IndecisionApp extends React.Component {
         <AddOption handleAddOption={this.handleAddOption} />
       </div>
     );
-  }
+  };
 }
