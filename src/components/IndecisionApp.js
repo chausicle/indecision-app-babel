@@ -34,7 +34,7 @@ export default class IndecisionApp extends React.Component {
     this.setState((prevState) => ({ options: [...prevState.options, option] }));
   };
 
-  componentDidMount = () => {
+  componentDidMount() {
     try {
       const json = localStorage.getItem("options");
       const options = JSON.parse(json);
@@ -47,18 +47,18 @@ export default class IndecisionApp extends React.Component {
     }
   };
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.options.length !== this.state.options.length) {
       const json = JSON.stringify(this.state.options);
       localStorage.setItem("options", json);
     }
   };
 
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     console.log("componentWillUnmount");
   };
 
-  render = () => {
+  render() {
     const subtitle = "Put your life in the hands of a computer";
 
     return (
